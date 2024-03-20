@@ -29,7 +29,7 @@ function App() {
   const queryClient = new QueryClient()
   const routers = createBrowserRouter([
     {
-      path: "",
+      path: "ecommerce/",
       element: <LayOut />,
       children: [
         {
