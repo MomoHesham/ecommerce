@@ -41,7 +41,7 @@ export default function ProductItem({ product}) {
   return (
     <div className="col-md-2 product " key={product.id}>
       <Link
-        to={"/ProductDetails/" + product.id}
+        to={"ProductDetails/" + product.id}
         className="text-decoration-none link-dark"
       >
         <img src={product.imageCover} className="w-100" alt="" />

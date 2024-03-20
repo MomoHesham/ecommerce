@@ -19,7 +19,7 @@ export default function Navbar() {
       <nav className="navbar navbar-expand-lg bg-body-tertiary px-5 fixed-top">
         <div className="container">
           <Link className="navbar-brand" href="#">
-            <img to={""} src={logo} alt="" />
+            <img to={"ecommerce/"} src={logo} alt="" />
           </Link>
           <button
             className="navbar-toggler"
@@ -36,7 +36,7 @@ export default function Navbar() {
             {userToken && (
               <ul className="navbar-nav me-auto mb-2 mb-lg-0 align-items-center">
                 <li className="nav-item">
-                  <Link className="nav-link" to={"ecommerce/"}>
+                  <Link className="nav-link" to={""}>
                     Home
                   </Link>
                 </li>

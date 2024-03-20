@@ -26,7 +26,7 @@ export default function Login() {
       localStorage.setItem("userToken", data.token);
       setUserToken(data.token);
       setError(null);
-      navigate("/");
+      navigate("/ecommerce");
     }
   }
   let validationSchema = Yup.object({
