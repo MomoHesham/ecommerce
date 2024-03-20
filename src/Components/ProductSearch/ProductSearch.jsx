@@ -5,7 +5,8 @@ import { WishContext } from './../../Context/WishContext';
 export default function ProductSearch({ getAllProduct }) {
   const { getAllWishProduct ,wishColor} = useContext(WishContext);
   const [getData, setGetData] = useState([]);
-  const [inWishColor, setInWishColor] = useState(false);
+  const [inWishColor, setInWishColor] = useState([]);
+
   let searchedProduct=[];
   async function searchProduct() {
      searchedProduct = [];
@@ -14,7 +15,7 @@ export default function ProductSearch({ getAllProduct }) {
    
 
     for (let x = 0; x < data.data.length; x++) {
-      if (document.querySelector("#product-search").value != " ") {
+      if (document.querySelector("#product-search").value !== " ") {
         if (
           data.data[x].title
             .toLowerCase()
@@ -36,8 +37,13 @@ export default function ProductSearch({ getAllProduct }) {
     setGetData(data.data);
   }
   async function wishData() {
-    let x =  await getAllWishProduct()
-    console.log("Wish Data :: ",x);
+    const newArray=[]
+    let { data } = await getAllWishProduct();
+    for (let i = 0; i < data.data.length; i++) {
+      newArray.push(data.data[i]._id);
+    }
+    setInWishColor(newArray)
+
   }
   useEffect(() => {
     getFirstData();
@@ -57,10 +63,10 @@ export default function ProductSearch({ getAllProduct }) {
           onInput={() => searchProduct()}
         />
       </div>
-      {console.log(wishColor)}
+
       <div className="row gy-3 gx-2">
            {getData?.map((product) => (
-              <ProductItem product={product} inWishColor={inWishColor} setIconWishColor={setInWishColor} />
+             <ProductItem product={product} setInWishColor={setInWishColor} inWishColor={inWishColor} />
             ))}
 </div>
    

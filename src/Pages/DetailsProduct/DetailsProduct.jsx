@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 import { WishContext } from "../../Context/WishContext";
 
 export default function DetailsProduct() {
-  const { addProductWish, getAllWishProduct } = useContext(WishContext);
+  const { addProductWish, getAllWishProduct,removeProductWish } = useContext(WishContext);
   const [iconWishColor, setIconWishColor] = useState(false);
   const [getId, setGetId] = useState([])
   const [getWishData, setGetWishData] = useState([]);
@@ -16,44 +16,62 @@ export default function DetailsProduct() {
   const { addProductToCart, setGetCartCount } = useContext(CartContext);
   async function addToCart(id) {
     let { data } = await addProductToCart(id);
-    console.log(data);
     toast.success(data.message + " 🚚", {
       position: "bottom-right",
       className: "bg-main text-white",
     });
     setGetCartCount(data.numOfCartItems);
   }
-  async function addToWish(id) {
-    let { data } = await addProductWish(id);
-    // console.log(data);
-    toast.success(data.message + " ❤️", {
+  async function removeFromWish(id) {
+    let { data } = await removeProductWish(id)
+    toast.success(data.message + " 💔", {
       position: "top-right",
       className: "bg-main text-white",
     });
-    setGetWishData(data.data);
-    // setWishColor(data.data)
-    setIconWishColor(true);
+
+  }
+  async function toggleWish(id) {
+    if (iconWishColor === true) {
+      // setWishColor(data.data)
+      removeFromWish(id);
+      setIconWishColor(false);
+    } else {
+      addToWish(id)
+      setIconWishColor(true)
+    }
+   
+  
+   
+  }
+  async function addToWish(id) {
+    let { data } = await addProductWish(id);
+      toast.success(data.message + " ❤️", {
+        position: "top-right",
+        className: "bg-main text-white",
+      });
+      setGetWishData(data.data);
   }
   async function wishData() {
+    const newArray=[]
     let { data } = await getAllWishProduct();
-    // console.log("Wish Data :: ", x.data.data);
     setGetWish(data.data);
-    // x.data.data.map((wish)=>())
+
     for (let i = 0; i < data.data.length; i++) {
-      const newArray = [getId]
-      setGetId(...newArray, data.data[i]._id);
+      newArray.push(data.data[i]._id)
+      setGetId(newArray);
+      if (newArray.includes(id)) {
+        setIconWishColor(true);
+      }
     }
   }
   const [productDetails, setProductDetails] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   let { id } = useParams();
-  console.log(id);
   async function getProductDetails() {
     setIsLoading(true);
     let { data } = await axios.get(
       `https://ecommerce.routemisr.com/api/v1/products/${id}`
     );
-    console.log(data.data);
     setProductDetails(data.data);
     setIsLoading(false);
   }
@@ -77,8 +95,6 @@ export default function DetailsProduct() {
 
   return (
     <div className="container my-5 py-5">
-      {console.log("wish DDDDDD", getWish)}
-{console.log("ids Array", getId)}
       {isLoading ? (
         <Loader />
       ) : (
@@ -114,7 +130,7 @@ export default function DetailsProduct() {
                 className={`fa-solid fa-heart fa-2xl my-4 ${
                   iconWishColor ? "text-danger" : ""
                 }`}
-                onClick={() => addToWish(productDetails.id)}
+                onClick={() => toggleWish(productDetails.id)}
               ></i>
             </div>
           </div>

@@ -4,17 +4,16 @@ import { CartContext } from "../../Context/CartContext";
 import toast from "react-hot-toast";
 import { WishContext } from "../../Context/WishContext";
 
-export default function ProductItem({ product ,inWishColor, setInWishColor}) {
+export default function ProductItem({ product}) {
   const { addProductToCart, setGetCartCount } = useContext(CartContext);
   const { addProductWish,setWishColor } = useContext(WishContext);
-  const [iconWishColor, setIconWishColor] = useState(false);
+  let [iconWishColor, setIconWishColor] = useState(false);
 
   const [getWishData, setGetWishData] = useState([])
 
   
   async function addToCart(id) {
     let { data } = await addProductToCart(id);
-    console.log(data.numOfCartItems);
     toast.success(data.message + " 🚚", {
       position: "bottom-right",
       className: "bg-main text-white",
@@ -27,20 +26,20 @@ export default function ProductItem({ product ,inWishColor, setInWishColor}) {
   
   async function addToWish(id) {
     let { data } = await addProductWish(id);
-    console.log(data);
+    // console.log(data);
     toast.success(data.message + " ❤️", {
       position: "top-right",
       className: "bg-main text-white",
     });
     setGetWishData(data.data)
-    setWishColor(data.data)
+
     setIconWishColor(true);
- 
+
   }
+
   
   return (
     <div className="col-md-2 product " key={product.id}>
-     
       <Link
         to={"/ProductDetails/" + product.id}
         className="text-decoration-none link-dark"
@@ -63,6 +62,7 @@ export default function ProductItem({ product ,inWishColor, setInWishColor}) {
       <div className="text-end" onClick={() => addToWish(product.id)}>
         <i className={`fa-solid fa-heart fa-2x ${iconWishColor? "text-danger": ""}`}></i>
       </div>
+    
       <button
         className="btn bg-main text-white w-100 my-2"
         onClick={() => addToCart(product.id)}

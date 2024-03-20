@@ -23,9 +23,9 @@ export default function Cart() {
       setIsLoading(true);
       let { data } = await getProductCart();
       // console.log(data);
-      // setIsLoading(false);
-      // setGetCartDetail(data);
-      // setGetCartCount(data?.numOfCartItems);
+      setIsLoading(false);
+      setGetCartDetail(data);
+      setGetCartCount(data?.numOfCartItems);
     } else {
       // setGetCartDetail({});
       console.log(error);
