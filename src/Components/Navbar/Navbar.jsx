@@ -12,7 +12,7 @@ export default function Navbar() {
   function logoutUser() {
     localStorage.removeItem("userToken");
     setUserToken(null);
-    navigate("/login");
+    navigate("login");
   }
   return (
     <>
@@ -36,32 +36,32 @@ export default function Navbar() {
             {userToken && (
               <ul className="navbar-nav me-auto mb-2 mb-lg-0 align-items-center">
                 <li className="nav-item">
-                  <Link className="nav-link" to={""}>
+                  <Link className="nav-link" to={"ecommerce/"}>
                     Home
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" to={"/products"}>
+                  <Link className="nav-link" to={"products"}>
                     Products
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" to={"/cart"}>
+                  <Link className="nav-link" to={"cart"}>
                     cart
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" to={"/wishlist"}>
+                  <Link className="nav-link" to={"wishlist"}>
                     Wishlist
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" to={"/brands"}>
+                  <Link className="nav-link" to={"brands"}>
                     Brands
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" to={"/categories"}>
+                  <Link className="nav-link" to={"categories"}>
                     Categories
                   </Link>
                 </li>
@@ -77,7 +77,7 @@ export default function Navbar() {
               {userToken ? (
                 <>
                   <li className="nav-item cursor-pointer">
-                    <Link to={"/cart"} className="nav-link position-relative">
+                    <Link to={"cart"} className="nav-link position-relative">
                       <i className="fa-solid fa-cart-shopping fa-2x"></i>
                       <span className="position-absolute w-50 start-100 translate-middle badge rounded-pill bg-main">
                         {getCartCount}
@@ -93,7 +93,7 @@ export default function Navbar() {
               ) : (
                 <>
                   <li className="nav-item">
-                    <Link className="nav-link" to={"/login"}>
+                    <Link className="nav-link" to={"login"}>
                       Login
                     </Link>
                   </li>
