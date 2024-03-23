@@ -6,23 +6,23 @@ import { CartContext } from "../../Context/CartContext";
 import toast from "react-hot-toast";
 
 export default function Wishlist() {
-    let { getAllWishProduct, removeProductWish } = useContext(WishContext);
-    let { addProductToCart, setGetCartCount} = useContext(CartContext)
+  let { getAllWishProduct, removeProductWish } = useContext(WishContext);
+  let { addProductToCart, setGetCartCount } = useContext(CartContext);
   const [getWishData, setGetWishData] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
-    function addCartRemoveWish(id) {
-        addToCart(id);
-        removeWishProduct(id)
-    }
-    async function addToCart(id) {
-        let { data } = await addProductToCart(id);
-        console.log(data.numOfCartItems);
-        toast.success(data.message + " 🚚", {
-          position: "bottom-right",
-          className: "bg-main text-white",
-        });
-        setGetCartCount(data.numOfCartItems);
-      }
+  const [isLoading, setIsLoading] = useState(false);
+  function addCartRemoveWish(id) {
+    addToCart(id);
+    removeWishProduct(id);
+  }
+  async function addToCart(id) {
+    let { data } = await addProductToCart(id);
+    console.log(data.numOfCartItems);
+    toast.success(data.message + " 🚚", {
+      position: "bottom-right",
+      className: "bg-main text-white",
+    });
+    setGetCartCount(data.numOfCartItems);
+  }
   async function removeWishProduct(id) {
     await removeProductWish(id);
     getAllWish();
@@ -30,7 +30,7 @@ export default function Wishlist() {
   async function getAllWish() {
     setIsLoading(true);
     let { data } = await getAllWishProduct();
-      console.log(data);
+    console.log(data);
     setGetWishData(data.data);
     setIsLoading(false);
   }
@@ -61,7 +61,11 @@ export default function Wishlist() {
                 </div>
               </div>
               <div className="col-md-3">
-                <button type="button" class="my-btn-outline h4 p-2 rounded-3" onClick={()=>addCartRemoveWish(wish.id)}>
+                <button
+                  type="button"
+                  class="my-btn-outline h4 p-2 rounded-3"
+                  onClick={() => addCartRemoveWish(wish.id)}
+                >
                   Add to Cart
                 </button>
               </div>

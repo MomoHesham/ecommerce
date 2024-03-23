@@ -50,7 +50,7 @@ export default function Cart() {
     let { data } = await removeAllCart();
     console.log("Hello remove All Cart");
     console.log(data);
-    navigate("/");
+    navigate("/ecommerce");
   }
   return (
     <div className="container  my-5 py-5">
@@ -134,7 +134,7 @@ export default function Cart() {
                 ))}
                 <button
                   className="my-btn-outline rounded-3 p-2 d-block ms-auto"
-                  onClick={delAllCart}
+                  onClick={()=>(delAllCart())}
                 >
                   Clear my Cart
                 </button>
