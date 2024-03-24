@@ -4,14 +4,13 @@ import { CartContext } from "../../Context/CartContext";
 import toast from "react-hot-toast";
 import { WishContext } from "../../Context/WishContext";
 
-export default function ProductItem({ product}) {
+export default function ProductItem({ product }) {
   const { addProductToCart, setGetCartCount } = useContext(CartContext);
-  const { addProductWish,setWishColor } = useContext(WishContext);
+  const { addProductWish, setWishColor, wishColor } = useContext(WishContext);
   let [iconWishColor, setIconWishColor] = useState(false);
 
-  const [getWishData, setGetWishData] = useState([])
+  const [getWishData, setGetWishData] = useState([]);
 
-  
   async function addToCart(id) {
     let { data } = await addProductToCart(id);
     toast.success(data.message + " 🚚", {
@@ -19,11 +18,8 @@ export default function ProductItem({ product}) {
       className: "bg-main text-white",
     });
     setGetCartCount(data.numOfCartItems);
-    
   }
-  
-  
-  
+
   async function addToWish(id) {
     let { data } = await addProductWish(id);
     // console.log(data);
@@ -31,15 +27,23 @@ export default function ProductItem({ product}) {
       position: "top-right",
       className: "bg-main text-white",
     });
-    setGetWishData(data.data)
+    setGetWishData(data.data);
 
     setIconWishColor(true);
-
   }
+  useEffect(() => {
+    if (wishColor.includes(`${product.id}`)) {
+      setIconWishColor(true)
+    } else {
+      setIconWishColor(false)
+    }
+    //  wishColor.includes(`${product.id}`)?iconWishColor=true:iconWishColor=false
+    // console.log("Wish Data",wishColor);
+  }, [wishColor]);
 
-  
   return (
     <div className="col-md-2 product " key={product.id}>
+    
       <Link
         to={"ProductDetails/" + product.id}
         className="text-decoration-none link-dark"
@@ -60,9 +64,14 @@ export default function ProductItem({ product}) {
         </div>
       </Link>
       <div className="text-end" onClick={() => addToWish(product.id)}>
-        <i className={`fa-solid fa-heart fa-2x ${iconWishColor? "text-danger": ""}`}></i>
+        
+        {/* { wishColor.includes(`${product.id}`)?iconWishColor=true:iconWishColor=false} */}
+        <i
+          className={`fa-solid fa-heart fa-2x ${
+            iconWishColor ? "text-danger" : ""
+          }`}
+        ></i>
       </div>
-    
       <button
         className="btn bg-main text-white w-100 my-2"
         onClick={() => addToCart(product.id)}

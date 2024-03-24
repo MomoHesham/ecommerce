@@ -3,9 +3,9 @@ import ProductItem from "../ProductItem/ProductItem";
 import { WishContext } from './../../Context/WishContext';
 
 export default function ProductSearch({ getAllProduct }) {
-  const { getAllWishProduct ,wishColor} = useContext(WishContext);
+  const { getAllWishProduct ,wishColor, setWishColor} = useContext(WishContext);
   const [getData, setGetData] = useState([]);
-  const [inWishColor, setInWishColor] = useState([]);
+
 
   let searchedProduct=[];
   async function searchProduct() {
@@ -42,16 +42,19 @@ export default function ProductSearch({ getAllProduct }) {
     for (let i = 0; i < data.data.length; i++) {
       newArray.push(data.data[i]._id);
     }
-    setInWishColor(newArray)
+    setWishColor(newArray)
 
   }
+
   useEffect(() => {
     getFirstData();
     wishData();
+    // console.log("Data from search", wishColor);
   }, [])
   
   return (
     <div>
+      {/* {console.log("Data from search", wishColor)} */}
       <div className="mb-3 w-75 mx-auto">
         <input
           type="text"
@@ -66,7 +69,7 @@ export default function ProductSearch({ getAllProduct }) {
 
       <div className="row gy-3 gx-2">
            {getData?.map((product) => (
-             <ProductItem product={product} setInWishColor={setInWishColor} inWishColor={inWishColor} />
+             <ProductItem product={product} key={product.id} />
             ))}
 </div>
    
