@@ -22,13 +22,13 @@ export default function Cart() {
     if (!error) {
       setIsLoading(true);
       let { data } = await getProductCart();
-      // console.log(data);
+     
       setIsLoading(false);
       setGetCartDetail(data);
       setGetCartCount(data?.numOfCartItems);
     } else {
       // setGetCartDetail({});
-      console.log(error);
+     
     }
   }
   async function updateCart(id, count) {
@@ -49,15 +49,12 @@ export default function Cart() {
   async function delAllCart() {
     let { data } = await removeAllCart();
     console.log("Hello remove All Cart");
-    console.log(data);
+
     navigate("/ecommerce");
   }
   return (
     <div className="container  my-5 py-5">
       <div className="bg-body-secondary p-3">
-        {console.log("data", getCartDetail)}
-        {console.log("All Cart", getAllCart)}
-        {/* {console.log("Error",error)} */}
         <h1>Cart Shop:</h1>
 
         {getCartDetail?.numOfCartItems === 0 || error ? (

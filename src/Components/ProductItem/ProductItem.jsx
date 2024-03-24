@@ -6,7 +6,7 @@ import { WishContext } from "../../Context/WishContext";
 
 export default function ProductItem({ product }) {
   const { addProductToCart, setGetCartCount } = useContext(CartContext);
-  const { addProductWish, setWishColor, wishColor } = useContext(WishContext);
+  const { addProductWish,removeProductWish, setWishColor, wishColor } = useContext(WishContext);
   let [iconWishColor, setIconWishColor] = useState(false);
 
   const [getWishData, setGetWishData] = useState([]);
@@ -20,16 +20,34 @@ export default function ProductItem({ product }) {
     setGetCartCount(data.numOfCartItems);
   }
 
-  async function addToWish(id) {
-    let { data } = await addProductWish(id);
-    // console.log(data);
-    toast.success(data.message + " ❤️", {
+  async function removeFromWish(id) {
+    let { data } = await removeProductWish(id)
+    toast.success(data.message + " 💔", {
       position: "top-right",
       className: "bg-main text-white",
     });
-    setGetWishData(data.data);
 
-    setIconWishColor(true);
+  }
+  async function toggleWish(id) {
+    if (iconWishColor === true) {
+      // setWishColor(data.data)
+      removeFromWish(id);
+      setIconWishColor(false);
+    } else {
+      addToWish(id)
+      setIconWishColor(true)
+    }
+   
+  
+   
+  }
+  async function addToWish(id) {
+    let { data } = await addProductWish(id);
+      toast.success(data.message + " ❤️", {
+        position: "top-right",
+        className: "bg-main text-white",
+      });
+      setGetWishData(data.data);
   }
   useEffect(() => {
     if (wishColor.includes(`${product.id}`)) {
@@ -63,7 +81,7 @@ export default function ProductItem({ product }) {
           </div>
         </div>
       </Link>
-      <div className="text-end" onClick={() => addToWish(product.id)}>
+      <div className="text-end" onClick={() => toggleWish(product.id)}>
         
         {/* { wishColor.includes(`${product.id}`)?iconWishColor=true:iconWishColor=false} */}
         <i
